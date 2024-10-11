@@ -4,15 +4,16 @@ let score = 0;
 let allowInput = false;
 let currentPlayer = null;
 
+// Seleciona os elementos do DOM
 const startButton = document.getElementById('start-game');
 const scoreDisplay = document.getElementById('score');
-const colorBoxes = document.querySelectorAll('.color-box');
+const characterBoxes = document.querySelectorAll('.character-box'); // Substituí color-box por character-box
 const registerBtn = document.getElementById('register-btn');
 const usernameInput = document.getElementById('username');
 const gameSection = document.getElementById('game-section');
 const rankingList = document.getElementById('ranking-list');
 
-// Carregar ranking do localStorage
+// Função para carregar ranking do localStorage
 function loadRanking() {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
     rankingList.innerHTML = '';
@@ -23,7 +24,7 @@ function loadRanking() {
     });
 }
 
-// Função para salvar jogador no ranking
+// Função para salvar pontuação no ranking
 function saveScore(username, score) {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
     const playerIndex = ranking.findIndex(player => player.username === username);
@@ -41,7 +42,7 @@ function saveScore(username, score) {
     loadRanking();
 }
 
-// Função de cadastro
+// Função de cadastro do jogador
 registerBtn.addEventListener('click', () => {
     const username = usernameInput.value.trim();
     if (username) {
@@ -65,46 +66,46 @@ function startGame() {
     nextRound();
 }
 
-// Função para adicionar uma cor aleatória à sequência e exibir para o jogador
+// Adiciona um personagem aleatório à sequência e exibe para o jogador
 function nextRound() {
-    const colors = ['green', 'red', 'yellow', 'blue'];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    sequence.push(randomColor);
+    const characters = ['alvin', 'simon', 'theodor', 'ivan']; // IDs das imagens
+    const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
+    sequence.push(randomCharacter);
     allowInput = false;
     playerSequence = [];
     displaySequence();
 }
 
-// Exibe a sequência ao jogador
+// Exibe a sequência de personagens
 function displaySequence() {
-    sequence.forEach((color, index) => {
+    sequence.forEach((character, index) => {
         setTimeout(() => {
-            playColor(color);
+            playCharacter(character);
         }, (index + 1) * 800);
     });
 
     setTimeout(() => {
-        allowInput = true;  // Permite o input do jogador após a sequência ser exibida
+        allowInput = true;  // Permite o input do jogador após a sequência
     }, sequence.length * 800);
 }
 
-// Função para animar a cor correspondente
-function playColor(color) {
-    const element = document.getElementById(color);
+// Função para animar o personagem correspondente
+function playCharacter(character) {
+    const element = document.getElementById(character);
     element.classList.add('active');
     setTimeout(() => {
         element.classList.remove('active');
     }, 400);
 }
 
-// Adiciona eventos de clique às cores
-colorBoxes.forEach(box => {
+// Adiciona eventos de clique às imagens
+characterBoxes.forEach(box => {
     box.addEventListener('click', (e) => {
         if (!allowInput) return;  // Bloqueia input durante a exibição da sequência
 
-        const color = e.target.id;
-        playerSequence.push(color);
-        playColor(color);
+        const character = e.target.id;
+        playerSequence.push(character);
+        playCharacter(character);
         checkSequence();
     });
 });

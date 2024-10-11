@@ -35,6 +35,16 @@ body {
     cursor: pointer;
 }
 
+.character-box {
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
+    cursor: pointer;
+    opacity: 0.5;
+    object-fit: cover; /* Faz com que a imagem preencha o espaço sem distorcer */
+}
+
 .active {
     opacity: 1 !important;
 }
+
